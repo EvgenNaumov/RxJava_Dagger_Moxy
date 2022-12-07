@@ -2,41 +2,47 @@ package com.naumov.appmvp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.naumov.appmvp.databinding.ActivityMainBinding
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
+import moxy.presenter.InjectPresenter
 
-class MainActivity : AppCompatActivity(),MainView {
+class MainActivity : MvpAppCompatActivity(),MainView {
 
-    var vb: ActivityMainBinding?=null
-    val presenter = MainPresenter(this)
+    private  lateinit var vb: ActivityMainBinding
+    private val presenter by moxyPresenter { MainPresenter(CountersModel()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vb = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(vb?.root)
+        setContentView(vb.root)
 
-        vb?.btnCounter1?.setOnClickListener{
-            presenter.counterClickButton1()
+        vb.btnCounterOne.setOnClickListener{
+            presenter.counterClickButtonOne()
         }
-        vb?.btnCounter2?.setOnClickListener {
-            presenter.counterClickButton2()
+        vb.btnCounterTwo.setOnClickListener {
+            presenter.counterClickButtonTwo()
         }
-        vb?.btnCounter3?.setOnClickListener{
-            presenter.counterClickButton3()
+        vb.btnCounterThree.setOnClickListener{
+            presenter.counterClickButtonThree()
         }
 
 
     }
 
+//    private fun initPresenter() {
+//        presenter = MainPresenter(CountersModel())
+//    }
+
     override fun setButtonOneText(text: String) {
-        vb?.btnCounter1?.text = text
+        vb.btnCounterOne.text = text
     }
 
     override fun setButtonTwoText(text: String) {
-        vb?.btnCounter2?.text = text
+        vb.btnCounterTwo.text = text
     }
 
     override fun setButtonThreeText(text: String) {
-        vb?.btnCounter3?.text = text
+        vb.btnCounterThree.text = text
     }
 }

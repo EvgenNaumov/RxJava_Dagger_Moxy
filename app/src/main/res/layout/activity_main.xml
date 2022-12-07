@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:text="@string/counter_one"/>
     <Button
-        android:id="@+id/btn_counter1"
+        android:id="@+id/btn_counter_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_1"
@@ -21,10 +21,10 @@
         android:id="@+id/tv_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btn_counter1"
+        app:layout_constraintTop_toBottomOf="@id/btn_counter_one"
         android:text="@string/counter_two" />
     <Button
-        android:id="@+id/btn_counter2"
+        android:id="@+id/btn_counter_two"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_2"
@@ -37,7 +37,7 @@
         android:text="@string/counter_three" />
 
     <Button
-        android:id="@+id/btn_counter3"
+        android:id="@+id/btn_counter_three"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tv_3"
