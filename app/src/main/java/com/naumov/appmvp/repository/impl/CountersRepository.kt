@@ -1,6 +1,6 @@
-package com.naumov.appmvp
+package com.naumov.appmvp.repository.impl
 
-class CountersModel {
+class CountersRepository {
 
     val counters = mutableListOf(0,0,0)
 

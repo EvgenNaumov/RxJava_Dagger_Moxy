@@ -1,26 +1,16 @@
 package com.naumov.appmvp
 
-import moxy.InjectViewState
+import com.naumov.appmvp.repository.GithubInterface
+import com.naumov.appmvp.repository.impl.CountersRepository
+import com.naumov.appmvp.repository.impl.GithubRepositoryImpl
 import moxy.MvpPresenter
 
-class MainPresenter(private val countersModel: CountersModel):MvpPresenter<MainView>() {
+class MainPresenter(private val repository: GithubInterface):MvpPresenter<MainView>() {
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
+        viewState.initList(repository.getGithubUsers())
     }
 
-    fun counterClickButtonOne(){
-        val nextValue = countersModel.next(0)
-        viewState.setButtonOneText(nextValue.toString())
-    }
 
-    fun counterClickButtonTwo(){
-        val nextValue = countersModel.next(1)
-        viewState.setButtonTwoText(nextValue.toString())
-    }
-
-    fun counterClickButtonThree(){
-        val nextValue = countersModel.next(2)
-        viewState.setButtonThreeText(nextValue.toString())
-    }
 }
 
