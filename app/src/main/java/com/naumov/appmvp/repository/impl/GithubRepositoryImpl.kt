@@ -6,10 +6,10 @@ import com.naumov.appmvp.repository.GithubInterface
 class GithubRepositoryImpl: GithubInterface {
 
     private val listUsers:List<GithubUserEntity> = listOf(
-        GithubUserEntity("login1"),
-        GithubUserEntity("login2"),
-        GithubUserEntity("login3"),
-        GithubUserEntity("login4"),
+        GithubUserEntity("Ivan","some text about Ivan"),
+        GithubUserEntity("Mr. Jon","some text about Mr. Jon"),
+        GithubUserEntity("Peter Pen","some text about Peter Pen"),
+        GithubUserEntity("Klaus","some text about Klaus"),
     )
 
     override fun getGithubUsers():List<GithubUserEntity> = listUsers
