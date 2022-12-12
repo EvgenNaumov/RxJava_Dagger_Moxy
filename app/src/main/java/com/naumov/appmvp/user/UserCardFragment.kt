@@ -4,27 +4,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.naumov.appmvp.App
 import com.naumov.appmvp.KEY_POS_LIST
 import com.naumov.appmvp.core.BackPressedLisener
 import com.naumov.appmvp.databinding.FragmentUserCardBinding
 import com.naumov.appmvp.model.GithubUserEntity
-import com.naumov.appmvp.repository.impl.GithubRepositoryImpl
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UserCardFragment() : MvpAppCompatFragment(),UserCardView, BackPressedLisener {
+class UserCardFragment(private val userEntity:GithubUserEntity) : MvpAppCompatFragment(),UserCardView, BackPressedLisener {
 
     companion object {
-        fun newInstance(): UserCardFragment {
-            return UserCardFragment()
+        fun newInstance(i:GithubUserEntity): UserCardFragment {
+            return UserCardFragment(i)
         }
     }
 
+//     private var user:GithubUserEntity? = null
+//        get() = userEntity
+//        private set(value)  {
+//            field = userEntity
+//        }
+
     private var _binding: FragmentUserCardBinding? = null
     private val binding:FragmentUserCardBinding get() = _binding!!
-    private var userEntity:GithubUserEntity? = null
 
     private val presenter: UserCardPresenter by moxyPresenter {
         UserCardPresenter(
@@ -49,11 +52,6 @@ class UserCardFragment() : MvpAppCompatFragment(),UserCardView, BackPressedLisen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState!=null) run {
-             userEntity = savedInstanceState.getParcelable(
-                 KEY_POS_LIST
-             )!!
-        }
     }
 
     override fun onDestroy() {
@@ -62,9 +60,9 @@ class UserCardFragment() : MvpAppCompatFragment(),UserCardView, BackPressedLisen
     }
 
     override fun initView() {
-//        binding.apply {
-//            //loginTextViewFragmentCarduser.text = userEntity.login
-//        }
+        binding.apply {
+            loginTextViewFragmentCarduser.text = userEntity.login
+        }
     }
 
     override fun updateView() {

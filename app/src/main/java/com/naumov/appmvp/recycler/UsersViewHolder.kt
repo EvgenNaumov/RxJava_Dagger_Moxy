@@ -21,7 +21,7 @@ class UsersViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
     fun bind(item:GithubUserEntity) {
 
         itemView.setOnClickListener {
-            router.navigateTo(UsersScreen.FragmentUsercard())
+            router.navigateTo(UsersScreen.FragmentUsercard(item))
         }
 
         with(item) {
