@@ -21,7 +21,6 @@ class UsersViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
     fun bind(item:GithubUserEntity) {
 
         itemView.setOnClickListener {
-            Toast.makeText(itemView.context, "open card",Toast.LENGTH_SHORT).show()
             router.navigateTo(UsersScreen.FragmentUsercard())
         }
 

@@ -62,7 +62,6 @@ class UserCardFragment() : MvpAppCompatFragment(),UserCardView, BackPressedLisen
     }
 
     override fun initView() {
-        Toast.makeText(requireContext(),"aaa",Toast.LENGTH_SHORT).show()
 //        binding.apply {
 //            //loginTextViewFragmentCarduser.text = userEntity.login
 //        }
