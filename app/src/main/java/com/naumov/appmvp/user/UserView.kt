@@ -9,4 +9,5 @@ import moxy.viewstate.strategy.StateStrategyType
 interface UserView: MvpView {
     fun initView(usersList: List<GithubUserEntity>)
     fun updateView(usersList: List<GithubUserEntity>)
+    fun errorView(error:Throwable)
 }

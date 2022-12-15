@@ -6,6 +6,6 @@ import com.naumov.appmvp.user.UserCardFragment
 import com.naumov.appmvp.user.UserFragment
 
 object UsersScreen {
-    fun FragmentUser() = FragmentScreen{ UserFragment.getInstance()}
-    fun FragmentUsercard(userID:GithubUserEntity) = FragmentScreen(){UserCardFragment.newInstance(userID)}
+    fun screenUsersList() = FragmentScreen{ UserFragment.getInstance()}
+    fun screenUserCard(userID:GithubUserEntity) = FragmentScreen(){UserCardFragment.newInstance(userID)}
 }

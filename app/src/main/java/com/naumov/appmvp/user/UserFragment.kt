@@ -1,9 +1,11 @@
 package com.naumov.appmvp.user
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.naumov.appmvp.App
 import com.naumov.appmvp.core.BackPressedLisener
@@ -51,6 +53,9 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedLisener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.userListProgressbar.visibility = View.VISIBLE
+        binding.fragmentUserRecycler.visibility = View.GONE
+
         with(binding) {
             fragmentUserRecycler.layoutManager = LinearLayoutManager(requireContext())
             fragmentUserRecycler.adapter = adapter
@@ -63,10 +68,20 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedLisener {
     }
 
     override fun initView(usersList: List<GithubUserEntity>) {
+        binding.userListProgressbar.visibility = View.GONE
+        binding.fragmentUserRecycler.visibility = View.VISIBLE
+
         adapter.users = usersList
     }
 
     override fun updateView(usersList: List<GithubUserEntity>) {
+    }
+
+    override fun errorView(error: Throwable) {
+        binding.userListProgressbar.visibility = View.GONE
+        binding.fragmentUserRecycler.visibility = View.GONE
+
+        Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_LONG).show()
     }
 
     override fun onBackPressed() = presenter.onBackPress()

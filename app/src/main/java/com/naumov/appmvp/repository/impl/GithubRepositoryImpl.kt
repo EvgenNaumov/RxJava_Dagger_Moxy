@@ -2,6 +2,8 @@ package com.naumov.appmvp.repository.impl
 
 import com.naumov.appmvp.model.GithubUserEntity
 import com.naumov.appmvp.repository.GithubInterface
+import io.reactivex.rxjava3.core.Observable
+import java.util.*
 
 class GithubRepositoryImpl: GithubInterface {
 
@@ -12,6 +14,9 @@ class GithubRepositoryImpl: GithubInterface {
         GithubUserEntity("Klaus","some text about Klaus"),
     )
 
-    override fun getGithubUsers():List<GithubUserEntity> = listUsers
+    override fun getGithubUsers():List<GithubUserEntity> {
+        Thread.sleep(3000)
+        return listUsers
+    }
 
 }

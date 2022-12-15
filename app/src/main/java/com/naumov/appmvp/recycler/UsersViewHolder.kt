@@ -2,14 +2,11 @@ package com.naumov.appmvp.recycler
 
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.github.terrakok.cicerone.Router
-import com.github.terrakok.cicerone.Screen
 import com.naumov.appmvp.App
 import com.naumov.appmvp.R
 import com.naumov.appmvp.core.nav.UsersScreen
-import com.naumov.appmvp.main.MainView
 import com.naumov.appmvp.model.GithubUserEntity
 
 class UsersViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
@@ -21,7 +18,7 @@ class UsersViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView) {
     fun bind(item:GithubUserEntity) {
 
         itemView.setOnClickListener {
-            router.navigateTo(UsersScreen.FragmentUsercard(item))
+            router.navigateTo(UsersScreen.screenUserCard(item))
         }
 
         with(item) {
