@@ -1,6 +1,5 @@
 package com.naumov.appmvp.user
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +10,7 @@ import com.naumov.appmvp.App
 import com.naumov.appmvp.core.BackPressedLisener
 import com.naumov.appmvp.databinding.FragmentUserListBinding
 import com.naumov.appmvp.model.GithubUserEntity
+import com.naumov.appmvp.network.NetworkProvider
 import com.naumov.appmvp.recycler.UsersAdapter
 import com.naumov.appmvp.repository.impl.GithubRepositoryImpl
 import moxy.MvpAppCompatFragment
@@ -30,9 +30,21 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedLisener {
 
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
-            GithubRepositoryImpl(),
+            GithubRepositoryImpl(NetworkProvider.userApi),
             App.instance.router
         )
+    }
+
+    override fun showLoading() {
+
+        binding.userListProgressbar.visibility = View.VISIBLE
+        binding.fragmentUserRecycler.visibility = View.GONE
+    }
+
+    override fun hideLoading() {
+        binding.userListProgressbar.visibility = View.GONE
+        binding.fragmentUserRecycler.visibility = View.VISIBLE
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,9 +65,6 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedLisener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.userListProgressbar.visibility = View.VISIBLE
-        binding.fragmentUserRecycler.visibility = View.GONE
-
         with(binding) {
             fragmentUserRecycler.layoutManager = LinearLayoutManager(requireContext())
             fragmentUserRecycler.adapter = adapter
@@ -68,18 +77,14 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedLisener {
     }
 
     override fun initView(usersList: List<GithubUserEntity>) {
-        binding.userListProgressbar.visibility = View.GONE
-        binding.fragmentUserRecycler.visibility = View.VISIBLE
-
         adapter.users = usersList
     }
 
     override fun updateView(usersList: List<GithubUserEntity>) {
+
     }
 
     override fun errorView(error: Throwable) {
-        binding.userListProgressbar.visibility = View.GONE
-        binding.fragmentUserRecycler.visibility = View.GONE
 
         Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_LONG).show()
     }

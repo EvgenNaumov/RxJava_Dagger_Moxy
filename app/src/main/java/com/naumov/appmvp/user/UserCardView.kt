@@ -10,4 +10,6 @@ import moxy.viewstate.strategy.StateStrategyType
 interface UserCardView:MvpView {
     fun initView()
     fun updateView()
+    fun showLoading()
+    fun hideLoading()
 }

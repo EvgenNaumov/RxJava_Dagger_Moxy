@@ -16,6 +16,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "SERVER_URL", "\"https://api.github.com/\""
     }
 
     buildFeatures {
@@ -57,5 +59,13 @@ dependencies {
     //RxJava
     implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+
+    //Coil image download
+    implementation 'io.coil-kt:coil:1.4.0'
 
 }

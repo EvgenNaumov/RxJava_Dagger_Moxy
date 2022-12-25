@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.naumov.appmvp.R
+import com.naumov.appmvp.databinding.ItemUserBinding
 import com.naumov.appmvp.model.GithubUserEntity
 
 
@@ -19,8 +20,8 @@ class UsersAdapter():RecyclerView.Adapter<UsersViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UsersViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_user,parent,false)
-        return UsersViewHolder(view)
+        val binding = ItemUserBinding.inflate(LayoutInflater.from(parent.context))
+        return UsersViewHolder(binding)
     }
 
     override fun getItemCount() = users.size

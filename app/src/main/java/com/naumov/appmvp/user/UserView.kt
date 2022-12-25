@@ -10,4 +10,6 @@ interface UserView: MvpView {
     fun initView(usersList: List<GithubUserEntity>)
     fun updateView(usersList: List<GithubUserEntity>)
     fun errorView(error:Throwable)
+    fun showLoading()
+    fun hideLoading()
 }
