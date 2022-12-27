@@ -86,7 +86,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedLisener {
 
     override fun errorView(error: Throwable) {
 
-        Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_LONG).show()
+//        Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_LONG).show()
     }
 
     override fun onBackPressed() = presenter.onBackPress()

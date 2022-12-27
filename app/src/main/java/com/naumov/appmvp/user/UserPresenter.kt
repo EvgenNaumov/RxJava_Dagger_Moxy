@@ -3,16 +3,11 @@ package com.naumov.appmvp.user
 import android.util.Log
 import com.github.terrakok.cicerone.Router
 import com.naumov.appmvp.TAG
-import com.naumov.appmvp.disposeBy
 import com.naumov.appmvp.model.GithubUserEntity
 import com.naumov.appmvp.repository.GithubInterface
-import com.naumov.appmvp.repository.impl.CountersRepository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 
@@ -21,24 +16,28 @@ class UserPresenter(
     private val router: Router
 ) : MvpPresenter<UserView>() {
     private val bag = CompositeDisposable()
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
         viewState.showLoading()
         repository.getGithubUsers()
             .subscribeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
             {
-                viewState.initView(it)
-                viewState.hideLoading()
+                updateView(it)
             },
-            {
+             {
                 Log.d(TAG, "onFirstViewAttach: ${it.message}")
-                viewState.errorView(it)
-            }
-        ).disposeBy(bag)
+//                viewState.errorView(it)
+            })
 
+    }
+
+    private fun updateView(listUsers:List<GithubUserEntity>) {
+        viewState.initView(listUsers)
+        viewState.hideLoading()
     }
 
     private fun create(list:List<GithubUserEntity>) = Observable.create<List<GithubUserEntity>> { emitter->
@@ -57,7 +56,6 @@ class UserPresenter(
 
     override fun onDestroy() {
         super.onDestroy()
-        bag.dispose()
 
     }
     fun onBackPress(): Boolean {

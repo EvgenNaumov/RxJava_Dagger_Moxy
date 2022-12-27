@@ -14,8 +14,6 @@ import com.naumov.appmvp.model.GithubUserEntity
 
 class UsersViewHolder(private val binding: ItemUserBinding) :RecyclerView.ViewHolder(binding.root) {
 
-    private val loginUser by lazy { itemView.findViewById<TextView>(R.id.login_user_text_view) }
-    private val descriptionUser by lazy { itemView.findViewById<TextView>(R.id.description_text_view)}
     private val router:Router = App.instance.router
 
     fun bind(item:GithubUserEntity) {

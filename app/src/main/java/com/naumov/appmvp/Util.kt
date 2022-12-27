@@ -21,7 +21,7 @@ const val KEY_POS_LIST = "rey_pos_list"
 
  fun <T> Single<T>.subscribeSingeByDef():Single<T>{
     return subscribeOn(Schedulers.io())
-        .subscribeOn(AndroidSchedulers.mainThread())
+        .observeOn(AndroidSchedulers.mainThread())
 }
 
  fun Disposable.disposeBy(bag:CompositeDisposable){

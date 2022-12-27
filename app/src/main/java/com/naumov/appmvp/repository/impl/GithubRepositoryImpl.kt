@@ -18,8 +18,11 @@ class GithubRepositoryImpl(private val userApi:UsersApi ): GithubInterface{
         GithubUserEntity("Klaus","some text about Klaus",""),
     )
 
+    override fun getUsersDefault(): List<GithubUserEntity> {
+        return listUsers
+    }
     override fun getGithubUsers(): Single<List<GithubUserEntity>> {
-        return userApi.getAllUsers().map { it.map(UserMapper::mapToEntity) }
+        return userApi.getAllUsers().map { ListDTO -> ListDTO.map { UserMapper.mapToEntity(it) } }
     }
 
     override fun getUserByid(login: String): Single<GithubUserEntity> {

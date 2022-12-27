@@ -23,7 +23,7 @@ class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>
             .subscribeSingeByDef()
             .subscribe(
                 {
-                viewState.updateView()
+                viewState.initView()
                     viewState.hideLoading()
                 },
                 {
