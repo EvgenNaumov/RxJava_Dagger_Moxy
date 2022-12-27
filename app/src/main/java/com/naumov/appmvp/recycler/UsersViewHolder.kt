@@ -19,7 +19,7 @@ class UsersViewHolder(private val binding: ItemUserBinding) :RecyclerView.ViewHo
     fun bind(item:GithubUserEntity) {
 
         itemView.setOnClickListener {
-            router.navigateTo(UsersScreen.screenUserCard(item))
+            router.navigateTo(UsersScreen.screenUserCard(item.login))
         }
 
         with(binding) {

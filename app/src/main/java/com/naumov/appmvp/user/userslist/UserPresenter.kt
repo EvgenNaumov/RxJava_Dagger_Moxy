@@ -1,10 +1,11 @@
-package com.naumov.appmvp.user
+package com.naumov.appmvp.user.userslist
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
 import com.naumov.appmvp.TAG
 import com.naumov.appmvp.model.GithubUserEntity
 import com.naumov.appmvp.repository.GithubInterface
+import com.naumov.appmvp.user.userslist.UserView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable

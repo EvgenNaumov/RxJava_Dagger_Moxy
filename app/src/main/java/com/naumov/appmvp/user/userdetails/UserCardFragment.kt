@@ -1,36 +1,38 @@
-package com.naumov.appmvp.user
+package com.naumov.appmvp.user.userdetails
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import coil.load
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.naumov.appmvp.App
-import com.naumov.appmvp.KEY_POS_LIST
 import com.naumov.appmvp.core.BackPressedLisener
 import com.naumov.appmvp.databinding.FragmentUserCardBinding
 import com.naumov.appmvp.hideView
-import com.naumov.appmvp.model.GithubUserEntity
+import com.naumov.appmvp.model.UserRepoEntity
 import com.naumov.appmvp.showView
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UserCardFragment(private val userEntity: GithubUserEntity) : MvpAppCompatFragment(),
+class UserCardFragment(private val userLogin: String) : MvpAppCompatFragment(),
     UserCardView, BackPressedLisener {
 
     companion object {
         const val KEY_PARAM_LOGIN = "login_user"
-        fun newInstance(i: GithubUserEntity): UserCardFragment {
-            return UserCardFragment(i).apply {
+        fun newInstance(login: String): UserCardFragment {
+            return UserCardFragment(login).apply {
                 arguments = Bundle().apply {
-                    putString(KEY_PARAM_LOGIN, i.login)
+                    putString(KEY_PARAM_LOGIN, login)
                 }
             }
         }
     }
 
+    private var listEmpty:Boolean=true
+
     private var _binding: FragmentUserCardBinding? = null
     private val binding: FragmentUserCardBinding get() = _binding!!
+    private val adapter = UserDetailAdapter()
 
     private val presenter: UserCardPresenter by moxyPresenter {
         UserCardPresenter(
@@ -54,9 +56,24 @@ class UserCardFragment(private val userEntity: GithubUserEntity) : MvpAppCompatF
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        arguments?.getString(KEY_PARAM_LOGIN)?.let {
-            presenter.loadUser(it)
+
+        with(binding) {
+            forksListRecycler.layoutManager = LinearLayoutManager(requireContext())
+            forksListRecycler.adapter = adapter
         }
+
+        if (adapter.listRepo.isNotEmpty()){
+            listEmpty = false
+        }
+
+        if (listEmpty) {
+            arguments?.getString(KEY_PARAM_LOGIN)?.let {
+                presenter.loadUser(it)
+                presenter.loadRepoUser(it)
+            }
+        }
+
+
     }
 
     override fun onDestroy() {
@@ -78,15 +95,17 @@ class UserCardFragment(private val userEntity: GithubUserEntity) : MvpAppCompatF
 
     override fun initView() {
         binding.apply {
-            loginTextViewFragmentCarduser.text = userEntity.login
-
+            titleLoginTextViewFragmentCarduser.text = userLogin
         }
+    }
+
+    override fun updateList(repoList: List<UserRepoEntity>) {
+        adapter.listRepo = repoList
     }
 
     override fun updateView() {
         binding.apply {
-            loginTextViewFragmentCarduser.text = userEntity.login
-            userImage.load(userEntity.avatarUrl)
+            titleLoginTextViewFragmentCarduser.text = userLogin
         }
     }
 

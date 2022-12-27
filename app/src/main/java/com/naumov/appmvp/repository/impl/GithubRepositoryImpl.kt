@@ -1,8 +1,11 @@
 package com.naumov.appmvp.repository.impl
 
 import com.naumov.appmvp.mapper.UserMapper
+import com.naumov.appmvp.model.ForkRepoEntity
 import com.naumov.appmvp.model.GithubUserEntity
+import com.naumov.appmvp.model.UserRepoEntity
 import com.naumov.appmvp.network.UserDto
+import com.naumov.appmvp.network.UserRepoDto
 import com.naumov.appmvp.network.UsersApi
 import com.naumov.appmvp.repository.GithubInterface
 import io.reactivex.rxjava3.core.Observable
@@ -27,5 +30,17 @@ class GithubRepositoryImpl(private val userApi:UsersApi ): GithubInterface{
 
     override fun getUserByid(login: String): Single<GithubUserEntity> {
         return userApi.getUser(login).map(UserMapper::mapToEntity)
+    }
+
+    override fun getUserRepoById(login: String): Single<List<UserRepoEntity>> {
+        return userApi.getRepos(login).map{ it -> it.map{UserMapper.mapToRepoEntity(it,login)}}
+    }
+
+    override fun getForksRepoById(login: String, nameRepo: String): Single<List<ForkRepoEntity>> {
+        return userApi.getForks(login, nameRepo).map{ it.map(UserMapper::mapToDetailForkEntity)}
+    }
+
+    override fun getForksByUrl(forkUrl: String): Single<List<ForkRepoEntity>> {
+        return userApi.getForksByUrl(forkUrl).map{ it.map(UserMapper::mapToDetailForkEntity)}
     }
 }

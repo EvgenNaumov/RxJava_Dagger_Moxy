@@ -1,4 +1,4 @@
-package com.naumov.appmvp.user
+package com.naumov.appmvp.user.userslist
 
 import com.naumov.appmvp.model.GithubUserEntity
 import moxy.MvpView
