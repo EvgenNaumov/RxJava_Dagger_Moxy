@@ -18,6 +18,7 @@ class App : Application(){
     val navigatorHolder = cicerone.getNavigatorHolder()
     val router = cicerone.router
     val repo = GithubRepositoryImpl(NetworkProvider.userApi)
+
     override fun onCreate() {
         super.onCreate()
         instance = this
