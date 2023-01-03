@@ -16,13 +16,14 @@ class UserPresenter(
     private val repository: GithubInterface,
     private val router: Router
 ) : MvpPresenter<UserView>() {
+
     private val bag = CompositeDisposable()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
         viewState.showLoading()
-        repository.getGithubUsers()
+        val disp = repository.getGithubUsers()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -31,9 +32,10 @@ class UserPresenter(
             },
              {
                 Log.d(TAG, "onFirstViewAttach: ${it.message}")
-//                viewState.errorView(it)
+                viewState.errorView(it)
             })
 
+        bag.addAll(disp)
     }
 
     private fun updateView(listUsers:List<GithubUserEntity>) {
@@ -57,7 +59,7 @@ class UserPresenter(
 
     override fun onDestroy() {
         super.onDestroy()
-
+        bag.dispose()
     }
     fun onBackPress(): Boolean {
         router.exit()

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.naumov.appmvp.App
 import com.naumov.appmvp.core.BackPressedLisener
@@ -85,7 +86,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedLisener {
 
     override fun errorView(error: Throwable) {
 
-//        Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Error: ${error.message}", Toast.LENGTH_LONG).show()
     }
 
     override fun onBackPressed() = presenter.onBackPress()

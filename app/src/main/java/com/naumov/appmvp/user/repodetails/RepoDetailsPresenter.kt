@@ -4,6 +4,7 @@ import android.util.Log
 import com.github.terrakok.cicerone.Router
 import com.naumov.appmvp.App
 import com.naumov.appmvp.TAG
+import com.naumov.appmvp.disposeBy
 import com.naumov.appmvp.subscribeSingeByDef
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
@@ -30,7 +31,7 @@ class RepoDetailsPresenter(private val router:Router):MvpPresenter<RepoDetailsVi
 
     fun loadDetailRepo(forkUrl:String){
 
-        repo.getForksByUrl(forkUrl)
+        val disp1 = repo.getForksByUrl(forkUrl)
             .subscribeSingeByDef()
             .subscribe(
                 {
@@ -42,6 +43,8 @@ class RepoDetailsPresenter(private val router:Router):MvpPresenter<RepoDetailsVi
                     Log.d(TAG, "loadDetailRepo: ${it.message}")
                 }
             )
+
+        bag.addAll(disp1)
 
     }
 

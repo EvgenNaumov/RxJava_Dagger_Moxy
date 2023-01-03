@@ -17,7 +17,7 @@ class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>
     }
 
     fun loadUser(login: String) {
-        repo.getUserByid(login)
+        val dispUser = repo.getUserByid(login)
             .subscribeSingeByDef()
             .subscribe(
                 {
@@ -28,12 +28,13 @@ class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>
                 }
             )
 
+        bag.addAll(dispUser)
     }
 
     fun loadRepoUser(login: String){
         viewState.showLoading()
 
-        repo.getUserRepoById(login)
+        val dispRepo = repo.getUserRepoById(login)
             .delay(3000, TimeUnit.MILLISECONDS)
             .subscribeSingeByDef()
             .subscribe(
@@ -46,6 +47,7 @@ class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>
 
                 }
             )
+        bag.addAll(dispRepo)
     }
 
     fun onBackPress(): Boolean {

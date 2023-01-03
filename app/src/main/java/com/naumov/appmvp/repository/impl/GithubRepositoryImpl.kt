@@ -1,5 +1,7 @@
 package com.naumov.appmvp.repository.impl
 
+import com.naumov.appmvp.mapper.ForkMapper
+import com.naumov.appmvp.mapper.RepoMapper
 import com.naumov.appmvp.mapper.UserMapper
 import com.naumov.appmvp.model.ForkRepoEntity
 import com.naumov.appmvp.model.GithubUserEntity
@@ -10,6 +12,7 @@ import com.naumov.appmvp.network.UsersApi
 import com.naumov.appmvp.repository.GithubInterface
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import java.lang.Exception
 import java.util.*
 
 class GithubRepositoryImpl(private val userApi:UsersApi ): GithubInterface{
@@ -33,14 +36,14 @@ class GithubRepositoryImpl(private val userApi:UsersApi ): GithubInterface{
     }
 
     override fun getUserRepoById(login: String): Single<List<UserRepoEntity>> {
-        return userApi.getRepos(login).map{ it -> it.map{UserMapper.mapToRepoEntity(it,login)}}
+        return userApi.getRepos(login).map{ it -> it.map{RepoMapper.mapToRepoEntity(it,login)}}
     }
 
     override fun getForksRepoById(login: String, nameRepo: String): Single<List<ForkRepoEntity>> {
-        return userApi.getForks(login, nameRepo).map{ it.map(UserMapper::mapToDetailForkEntity)}
+        return userApi.getForks(login, nameRepo).map{ it.map(ForkMapper::mapToDetailForkEntity)}
     }
 
     override fun getForksByUrl(forkUrl: String): Single<List<ForkRepoEntity>> {
-        return userApi.getForksByUrl(forkUrl).map{ it.map(UserMapper::mapToDetailForkEntity)}
+        return userApi.getForksByUrl(forkUrl).map{ it.map(ForkMapper::mapToDetailForkEntity)}
     }
 }

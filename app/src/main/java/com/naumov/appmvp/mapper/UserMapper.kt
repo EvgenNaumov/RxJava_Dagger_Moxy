@@ -17,23 +17,4 @@ object UserMapper {
         )
     }
 
-
-    fun mapToRepoEntity(userRepo: UserRepoDto, login:String): UserRepoEntity {
-        return UserRepoEntity(
-            id = userRepo.id,
-            name = userRepo.name,
-            forksUrl = userRepo.forksUrl,
-            fullName = userRepo.fullName,
-            login = login
-        )
-    }
-
-    fun mapToDetailForkEntity(forks: ForkRepoDto): ForkRepoEntity {
-        return ForkRepoEntity(
-            id = forks.id,
-            name = forks.name,
-            description = forks.description,
-            forkUrl = ""
-        )
-    }
 }
