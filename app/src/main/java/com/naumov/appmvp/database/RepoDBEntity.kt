@@ -4,17 +4,24 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "users")
-data class UserDBEntity(
+@Entity(
+    tableName = "repos"
+)
+
+data class RepoDBEntity(
     @PrimaryKey
     @ColumnInfo(name = PRIMARY_KEY)
     val id: Long,
     val login: String,
-    val avatarUrl: String
-
+    val name: String,
+    val forksUrl: String,
+    val fullName: String,
+    @ColumnInfo(name = FOREING_USER_KEY)
+    val userId: Long
 ) {
     companion object {
         const val PRIMARY_KEY = "id"
+        const val FOREING_USER_KEY = "userId"
     }
-
 }
+

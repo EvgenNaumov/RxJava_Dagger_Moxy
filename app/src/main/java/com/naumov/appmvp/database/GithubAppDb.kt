@@ -11,11 +11,26 @@ import androidx.room.RoomDatabase
 )
 abstract class GithubAppDb:RoomDatabase() {
 
-    private fun create(contex:Context):GithubAppDb{
-      return Room.databaseBuilder(
-          contex,
-          GithubAppDb::class.java,
-          "giyhub.db"
-      ).build()
+    abstract val userDAO: UserDAO
+
+    companion object {
+        private const val DB_NAME = "github.db"
+        private var instance: GithubAppDb? = null
+
+        fun getInstance() = instance ?: throw RuntimeException(
+            "Database has not been created." +
+                    "Please call create(context)"
+        )
+
+        fun create(contex: Context?) {
+            if (instance == null) {
+                instance = Room.databaseBuilder(
+                    contex!!,
+                    GithubAppDb::class.java,
+                    DB_NAME
+                ).build()
+            }
+
+        }
     }
 }

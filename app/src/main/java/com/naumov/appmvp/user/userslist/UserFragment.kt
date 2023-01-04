@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.naumov.appmvp.App
 import com.naumov.appmvp.core.BackPressedLisener
+import com.naumov.appmvp.database.GithubAppDb
 import com.naumov.appmvp.databinding.FragmentUserListBinding
 import com.naumov.appmvp.model.GithubUserEntity
 import com.naumov.appmvp.network.NetworkProvider
@@ -30,7 +31,8 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedLisener {
 
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
-            GithubRepositoryImpl(NetworkProvider.userApi),
+            GithubRepositoryImpl(NetworkProvider.userApi,GithubAppDb.getInstance().userDAO,
+                App.instance.getConnectSingle()),
             App.instance.router
         )
     }

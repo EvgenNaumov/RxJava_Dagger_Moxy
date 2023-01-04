@@ -33,10 +33,10 @@ fun <T> Single<T>.doCompletableIf(
     predicate: Boolean,
     completableCreate: (data: T) -> Completable
 ): Single<T> {
-    if (predicate) {
+    return  if (predicate) {
         return this.flatMap { completableCreate(it).andThen(Single.just(it)) }
     } else {
-        return this
+        this
     }
 
 }

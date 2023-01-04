@@ -13,4 +13,5 @@ interface GithubInterface {
     fun getUserRepoById(login:String):Single<List<UserRepoEntity>>
     fun getForksRepoById(login:String, nameRepo:String):Single<List<ForkRepoEntity>>
     fun getForksByUrl(forkUrl:String):Single<List<ForkRepoEntity>>
+    fun getUserWithRepos(login: String):Single<GithubUserEntity>
 }

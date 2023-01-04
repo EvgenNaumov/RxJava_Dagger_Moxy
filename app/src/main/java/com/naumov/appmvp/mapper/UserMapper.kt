@@ -13,7 +13,8 @@ object UserMapper {
         return GithubUserEntity(
             login = userDto.login,
             description = userDto.description,
-            avatarUrl = userDto.avatarUrl
+            avatarUrl = userDto.avatarUrl,
+            id = userDto.id
         )
     }
 

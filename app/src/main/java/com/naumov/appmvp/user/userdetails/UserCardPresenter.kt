@@ -9,6 +9,7 @@ import moxy.MvpPresenter
 import java.util.concurrent.TimeUnit
 
 class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>() {
+
     private val repo = App.instance.repo
     private val bag = CompositeDisposable()
 
