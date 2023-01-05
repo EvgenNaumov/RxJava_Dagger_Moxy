@@ -10,6 +10,6 @@ data class GithubUserEntity(
     val login: String,
     val description: String?,
     val avatarUrl: String?,
-    var repos: List< @RawValue UserRepoEntity>?=null
+    var repos: List< UserRepoEntity>?=null
 ) : Parcelable
 

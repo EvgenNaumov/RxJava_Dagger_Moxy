@@ -3,6 +3,7 @@ package com.naumov.appmvp
 import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
+import androidx.room.Database
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import com.naumov.appmvp.database.GithubAppDb
@@ -22,12 +23,15 @@ class App : Application() {
 
     val navigatorHolder = cicerone.getNavigatorHolder()
     val router = cicerone.router
-    val repo = GithubRepositoryImpl(NetworkProvider.userApi, GithubAppDb.getInstance().userDAO, instance.getConnectSingle())
+    val appDatabase by lazy { GithubAppDb }
+    var repo: GithubRepositoryImpl = GithubRepositoryImpl(NetworkProvider.userApi, appDatabase.getInstance().userDAO, instance.getConnectSingle())
 
     private lateinit var connectivityListener: ConnectivityListener
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        GithubAppDb.create(this)
 
         connectivityListener =
             ConnectivityListener(applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)

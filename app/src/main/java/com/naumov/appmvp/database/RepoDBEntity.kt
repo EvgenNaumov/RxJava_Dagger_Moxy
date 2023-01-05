@@ -2,10 +2,17 @@ package com.naumov.appmvp.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    tableName = "repos"
+    tableName = "repos",
+    foreignKeys = [ForeignKey(
+        entity = UserDBEntity::class,
+        parentColumns = [UserDBEntity.PRIMARY_KEY],
+        childColumns = [RepoDBEntity.FOREING_USER_KEY],
+        onDelete = ForeignKey.CASCADE
+    )]
 )
 
 data class RepoDBEntity(
