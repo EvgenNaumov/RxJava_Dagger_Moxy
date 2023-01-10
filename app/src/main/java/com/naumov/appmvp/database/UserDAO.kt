@@ -21,5 +21,5 @@ interface UserDAO {
 
     @Transaction
     @Query("SELECT * From users WHERE login = :login")
-     fun getUserWithRepos(login: String):Single<List<UserWithReposDB>>
+     fun getUserWithRepos(login: String):Single<List<UserDBEntity>>
 }
