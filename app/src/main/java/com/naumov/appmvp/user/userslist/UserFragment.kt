@@ -13,7 +13,7 @@ import com.naumov.appmvp.databinding.FragmentUserListBinding
 import com.naumov.appmvp.model.GithubUserEntity
 import com.naumov.appmvp.network.NetworkProvider
 import com.naumov.appmvp.recycler.UsersAdapter
-import com.naumov.appmvp.repository.impl.GithubRepositoryImpl
+import com.naumov.appmvp.repository.impl.GithubRepositoryUserImpl
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
@@ -31,7 +31,7 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedLisener {
 
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(
-            GithubRepositoryImpl(NetworkProvider.userApi,GithubAppDb.getInstance().userDAO,
+            GithubRepositoryUserImpl(NetworkProvider.userApi,GithubAppDb.getInstance().userDAO,
                 App.instance.getConnectSingle()),
             App.instance.router
         )

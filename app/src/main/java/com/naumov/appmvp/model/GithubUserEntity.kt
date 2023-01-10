@@ -9,7 +9,6 @@ data class GithubUserEntity(
     val id:Long,
     val login: String,
     val description: String?,
-    val avatarUrl: String?,
-    var repos: List< UserRepoEntity>?=null
+    val avatarUrl: String?
 ) : Parcelable
 

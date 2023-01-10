@@ -11,16 +11,13 @@ interface UserDAO {
      fun insert(userDBEntity: UserDBEntity): Completable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-     fun inserAll(userDBEntity: List<UserDBEntity>): Completable
+     fun insertAll(userDBEntity: List<UserDBEntity>): Completable
 
     @Delete
      fun delete(userDBEntity: UserDBEntity): Completable
 
     @Query("SELECT * FROM users")
      fun getAllUser(): Single<List<UserDBEntity>>
-
-    @Query("SELECT * FROM repos WHERE userId = :userId")
-     fun getAllReposByUser(userId: Long): List<RepoDBEntity>
 
     @Transaction
     @Query("SELECT * From users WHERE login = :login")

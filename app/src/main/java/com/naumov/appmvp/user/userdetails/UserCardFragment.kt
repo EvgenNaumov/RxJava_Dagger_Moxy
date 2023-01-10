@@ -14,21 +14,24 @@ import com.naumov.appmvp.showView
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UserCardFragment(private val userLogin: String) : MvpAppCompatFragment(),
+class UserCardFragment(private val login: String, private val userId: Long) :
+    MvpAppCompatFragment(),
     UserCardView, BackPressedLisener {
 
     companion object {
         const val KEY_PARAM_LOGIN = "login_user"
-        fun newInstance(login: String): UserCardFragment {
-            return UserCardFragment(login).apply {
+        const val KEY_PARAM_USERID = "user_id"
+        fun newInstance(login: String, userId: Long): UserCardFragment {
+            return UserCardFragment(login, userId).apply {
                 arguments = Bundle().apply {
                     putString(KEY_PARAM_LOGIN, login)
+                    putLong(KEY_PARAM_USERID, userId)
                 }
             }
         }
     }
 
-    private var listEmpty:Boolean=true
+    private var listEmpty: Boolean = true
 
     private var _binding: FragmentUserCardBinding? = null
     private val binding: FragmentUserCardBinding get() = _binding!!
@@ -42,7 +45,6 @@ class UserCardFragment(private val userLogin: String) : MvpAppCompatFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -62,18 +64,20 @@ class UserCardFragment(private val userLogin: String) : MvpAppCompatFragment(),
             forksListRecycler.adapter = adapter
         }
 
-        if (adapter.listRepo.isNotEmpty()){
+        if (adapter.listRepo.isNotEmpty()) {
             listEmpty = false
         }
 
         if (listEmpty) {
-            arguments?.getString(KEY_PARAM_LOGIN)?.let {
-                presenter.loadUser(it)
-                presenter.loadRepoUser(it)
+            arguments?.apply {
+                presenter.loadUser(this.getString(KEY_PARAM_LOGIN)?.let { it } ?: "")
+                presenter.loadRepoUser(
+                    this.getString(KEY_PARAM_LOGIN)?.let { it } ?: "",
+                    this.getLong(KEY_PARAM_USERID)?.let { it })
             }
+
+
         }
-
-
     }
 
     override fun onDestroy() {
@@ -93,9 +97,9 @@ class UserCardFragment(private val userLogin: String) : MvpAppCompatFragment(),
         }
     }
 
-    override fun initView() {
+    override fun initView(login: String) {
         binding.apply {
-            titleLoginTextViewFragmentCarduser.text = userLogin
+            titleLoginTextViewFragmentCarduser.text = login
         }
     }
 
@@ -105,7 +109,7 @@ class UserCardFragment(private val userLogin: String) : MvpAppCompatFragment(),
 
     override fun updateView() {
         binding.apply {
-            titleLoginTextViewFragmentCarduser.text = userLogin
+            titleLoginTextViewFragmentCarduser.text = ""
         }
     }
 

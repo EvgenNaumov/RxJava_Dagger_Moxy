@@ -6,12 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = arrayOf(UserDBEntity::class),
+    entities = arrayOf(UserDBEntity::class, RepoDBEntity::class),
             version =1
 )
 abstract class GithubAppDb:RoomDatabase() {
 
     abstract val userDAO: UserDAO
+    abstract val repoDAO: ReposDAO
 
     companion object {
         private const val DB_NAME = "github.db"

@@ -9,7 +9,7 @@ import moxy.viewstate.strategy.StateStrategyType
 
 @StateStrategyType(AddToEndSingleStrategy::class)
 interface UserCardView:MvpView {
-    fun initView()
+    fun initView(login:String)
     fun updateList(repoList: List<UserRepoEntity>)
     fun updateView()
     fun showLoading()

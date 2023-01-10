@@ -2,7 +2,6 @@ package com.naumov.appmvp.user.userdetails
 
 import com.github.terrakok.cicerone.Router
 import com.naumov.appmvp.App
-import com.naumov.appmvp.disposeBy
 import com.naumov.appmvp.subscribeSingeByDef
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
@@ -10,7 +9,8 @@ import java.util.concurrent.TimeUnit
 
 class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>() {
 
-    private val repo = App.instance.repo
+    private val repoUser = App.instance.repoUser
+    private val repoRepos = App.instance.repoRepos
     private val bag = CompositeDisposable()
 
     override fun onFirstViewAttach() {
@@ -18,11 +18,11 @@ class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>
     }
 
     fun loadUser(login: String) {
-        val dispUser = repo.getUserByid(login)
+        val dispUser = repoUser.getUserByid(login)
             .subscribeSingeByDef()
             .subscribe(
                 {
-                    viewState.initView()
+                    viewState.initView(it.login)
                 },
                 {
 
@@ -32,10 +32,10 @@ class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>
         bag.addAll(dispUser)
     }
 
-    fun loadRepoUser(login: String){
+    fun loadRepoUser(login: String, userID:Long){
         viewState.showLoading()
 
-        val dispRepo = repo.getUserRepoById(login)
+        val dispRepo = repoRepos.getUserRepoById(login,userID)
             .delay(3000, TimeUnit.MILLISECONDS)
             .subscribeSingeByDef()
             .subscribe(
