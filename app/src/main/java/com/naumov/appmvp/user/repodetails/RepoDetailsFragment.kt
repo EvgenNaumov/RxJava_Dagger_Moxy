@@ -63,7 +63,7 @@ class RepoDetailsFragment(private val forkUrl:String) :
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetailsRepoBinding.inflate(inflater, container, false)
         return binding.root
     }

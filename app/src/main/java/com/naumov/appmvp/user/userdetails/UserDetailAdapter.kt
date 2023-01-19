@@ -11,7 +11,7 @@ import com.naumov.appmvp.databinding.ItemRepoBinding
 import com.naumov.appmvp.model.GithubUserEntity
 import com.naumov.appmvp.model.UserRepoEntity
 
-class UserDetailAdapter() : RecyclerView.Adapter<UserDetailAdapter.RepoViewHolder>() {
+class UserDetailAdapter : RecyclerView.Adapter<UserDetailAdapter.RepoViewHolder>() {
 
     var listRepo: List<UserRepoEntity> = emptyList()
         @SuppressLint("NotifyDataSetChanged")
@@ -31,7 +31,7 @@ class UserDetailAdapter() : RecyclerView.Adapter<UserDetailAdapter.RepoViewHolde
 
     override fun getItemCount(): Int = listRepo.size
 
-    fun getItem(position:Int):UserRepoEntity = listRepo[position]
+    private fun getItem(position:Int):UserRepoEntity = listRepo[position]
 
     inner class RepoViewHolder(private val binding: ItemRepoBinding) : RecyclerView.ViewHolder(binding.root) {
 

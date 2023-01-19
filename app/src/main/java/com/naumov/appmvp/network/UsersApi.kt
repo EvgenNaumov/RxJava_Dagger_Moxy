@@ -15,7 +15,7 @@ interface UsersApi {
 
     //hw5
     @GET("/users/{login}/repos")
-    fun getRepos(@Path("login") login:String):Single<List<UserRepoDto>>
+    fun getRepos(@Path("login") i:String):Single<List<UserRepoDto>>
 
     @GET("/users/{login}/{name}/forks")
     fun getForks(@Path("login") login:String, @Path("name") name:String):Single<List<ForkRepoDto>>

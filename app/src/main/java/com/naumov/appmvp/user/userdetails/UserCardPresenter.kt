@@ -1,16 +1,18 @@
 package com.naumov.appmvp.user.userdetails
 
+import android.util.Log
 import com.github.terrakok.cicerone.Router
 import com.naumov.appmvp.App
-import com.naumov.appmvp.disposeBy
+import com.naumov.appmvp.TAG
+import com.naumov.appmvp.repository.GithubRepoInterface
+import com.naumov.appmvp.repository.GithubUserInterface
 import com.naumov.appmvp.subscribeSingeByDef
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 import java.util.concurrent.TimeUnit
 
-class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>() {
+class UserCardPresenter(private val repoUser: GithubUserInterface, private val repoRepos:GithubRepoInterface, private val router: Router) : MvpPresenter<UserCardView>() {
 
-    private val repo = App.instance.repo
     private val bag = CompositeDisposable()
 
     override fun onFirstViewAttach() {
@@ -18,11 +20,11 @@ class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>
     }
 
     fun loadUser(login: String) {
-        val dispUser = repo.getUserByid(login)
+        val dispUser = repoUser.getUserByid(login)
             .subscribeSingeByDef()
             .subscribe(
                 {
-                    viewState.initView()
+                    viewState.initView(it.login)
                 },
                 {
 
@@ -32,11 +34,10 @@ class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>
         bag.addAll(dispUser)
     }
 
-    fun loadRepoUser(login: String){
+    fun loadRepoUser(login: String, userID:Long){
         viewState.showLoading()
 
-        val dispRepo = repo.getUserRepoById(login)
-            .delay(3000, TimeUnit.MILLISECONDS)
+        val dispRepo = repoRepos.getUserRepoById(login,userID)
             .subscribeSingeByDef()
             .subscribe(
                 {
@@ -45,7 +46,7 @@ class UserCardPresenter(private val router: Router) : MvpPresenter<UserCardView>
 
                 },
                 {
-
+                    Log.d(TAG, "onFirstViewAttach: ${it.message}")
                 }
             )
         bag.addAll(dispRepo)

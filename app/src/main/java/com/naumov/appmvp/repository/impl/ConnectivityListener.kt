@@ -1,16 +1,21 @@
-package com.naumov.appmvp
+package com.naumov.appmvp.repository.impl
 
+import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
+import com.naumov.appmvp.repository.INetworkStatus
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.subjects.PublishSubject
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 
-class ConnectivityListener(connectivityManager:ConnectivityManager) {
+class ConnectivityListener(context: Context): INetworkStatus {
 
-    private val subject = PublishSubject.create<Boolean>()
+    private val subject:BehaviorSubject<Boolean> = BehaviorSubject.create()
     init{
+        subject.onNext(false)
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val request = NetworkRequest.Builder().build()
         connectivityManager.requestNetwork(request, object:ConnectivityManager.NetworkCallback(){
             override fun onAvailable(network: Network) {
@@ -27,7 +32,7 @@ class ConnectivityListener(connectivityManager:ConnectivityManager) {
         })
     }
 
-    fun status():Observable<Boolean> = subject
+    override fun status():Observable<Boolean> = subject
+    override fun statusSingle():Single<Boolean> = subject.first(false)
 
-    fun statusSingle():Single<Boolean> = subject.first(false)
 }

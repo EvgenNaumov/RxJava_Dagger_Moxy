@@ -8,6 +8,6 @@ import com.naumov.appmvp.user.userslist.UserFragment
 
 object UsersScreen {
     fun screenUsersList() = FragmentScreen{ UserFragment.getInstance()}
-    fun screenUserCard(userID:String) = FragmentScreen(){ UserCardFragment.newInstance(userID)}
+    fun screenUserCard(login:String,userID:Long) = FragmentScreen(){UserCardFragment.newInstance(login,userID)}
     fun screenRepoFoks(forkUrl:String) = FragmentScreen(){ RepoDetailsFragment.newInstance(forkUrl)}
 }

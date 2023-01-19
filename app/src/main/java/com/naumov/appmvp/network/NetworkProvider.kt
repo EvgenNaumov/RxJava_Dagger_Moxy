@@ -17,7 +17,7 @@ object NetworkProvider {
         .excludeFieldsWithoutExposeAnnotation()
         .create()
 
-    fun createRetrofit(): Retrofit = Retrofit.Builder()
+    private fun createRetrofit(): Retrofit = Retrofit.Builder()
         .client(creatClient())
         .baseUrl(BuildConfig.SERVER_URL)
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())

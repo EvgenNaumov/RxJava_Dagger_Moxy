@@ -6,12 +6,9 @@ import com.naumov.appmvp.model.UserRepoEntity
 import com.naumov.appmvp.network.UserRepoDto
 import io.reactivex.rxjava3.core.Single
 
-interface GithubInterface {
+interface GithubUserInterface {
     fun getUsersDefault():List<GithubUserEntity>
     fun getUserByid(login:String):Single<GithubUserEntity>
     fun getGithubUsers():Single<List<GithubUserEntity>>
-    fun getUserRepoById(login:String):Single<List<UserRepoEntity>>
-    fun getForksRepoById(login:String, nameRepo:String):Single<List<ForkRepoEntity>>
-    fun getForksByUrl(forkUrl:String):Single<List<ForkRepoEntity>>
-    fun getUserWithRepos(login: String):Single<GithubUserEntity>
+    fun getUserWithRepos(login: String)
 }

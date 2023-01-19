@@ -23,7 +23,7 @@ data class RepoDBEntity(
     val name: String,
     val forksUrl: String,
     val fullName: String,
-    @ColumnInfo(name = FOREING_USER_KEY)
+    @ColumnInfo(name = FOREING_USER_KEY, index = true)
     val userId: Long
 ) {
     companion object {

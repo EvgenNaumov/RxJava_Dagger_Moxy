@@ -9,5 +9,6 @@ data class UserRepoEntity(
     val login:String,
     val name:String,
     val forksUrl:String,
-    val fullName:String
+    val fullName:String,
+    val owenRepo:OwnerRepoEntity
 ) : Parcelable

@@ -2,15 +2,15 @@ package com.naumov.appmvp
 
 import android.app.Application
 import android.content.Context
-import android.net.ConnectivityManager
-import androidx.room.Database
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import com.naumov.appmvp.database.GithubAppDb
 import com.naumov.appmvp.network.NetworkProvider
-import com.naumov.appmvp.network.UsersApi
-import com.naumov.appmvp.repository.GithubInterface
-import com.naumov.appmvp.repository.impl.GithubRepositoryImpl
+import com.naumov.appmvp.repository.impl.ConnectivityListener
+import com.naumov.appmvp.repository.impl.GithubRepositoryRepoImpl
+import com.naumov.appmvp.repository.impl.GithubRepositoryUserImpl
+import com.naumov.appmvp.repository.impl.RoomGithubRepositoriesCache
+import com.naumov.appmvp.repository.impl.RoomGithubUsersCache
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 
 class App : Application() {
@@ -23,22 +23,33 @@ class App : Application() {
 
     val navigatorHolder = cicerone.getNavigatorHolder()
     val router = cicerone.router
-    val appDatabase by lazy { GithubAppDb }
-    var repo: GithubRepositoryImpl = GithubRepositoryImpl(NetworkProvider.userApi, appDatabase.getInstance().userDAO, instance.getConnectSingle())
 
-    private lateinit var connectivityListener: ConnectivityListener
+    private lateinit var appDatabase:GithubAppDb
+
+
+    lateinit var   repoUser: GithubRepositoryUserImpl
+    lateinit var repoRepos: GithubRepositoryRepoImpl
+    lateinit var  connectivityListener: ConnectivityListener
+    private  var cacheUserDB: RoomGithubUsersCache = RoomGithubUsersCache()
+    private var cacheUserRepoDB:RoomGithubRepositoriesCache = RoomGithubRepositoriesCache()
+
     override fun onCreate() {
         super.onCreate()
         instance = this
 
-        GithubAppDb.create(this)
+        appDatabase = getGithubAppDb(this)
+        connectivityListener = ConnectivityListener(this)
+        repoUser = GithubRepositoryUserImpl(NetworkProvider.userApi, appDatabase.userDAO, connectivityListener,cacheUserDB)
+        repoRepos = GithubRepositoryRepoImpl(NetworkProvider.userApi,appDatabase.repoDAO, connectivityListener, cacheUserRepoDB)
 
-        connectivityListener =
-            ConnectivityListener(applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
 
         RxJavaPlugins.setErrorHandler {}
     }
 
-    fun getConnectObservable() = connectivityListener.status()
-    fun getConnectSingle() = connectivityListener.statusSingle()
+    private fun getGithubAppDb(cont:Context):GithubAppDb  {
+        GithubAppDb.create(cont)
+        return GithubAppDb.getInstance()
+    }
+
+
 }

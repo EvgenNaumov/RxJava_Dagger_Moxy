@@ -9,7 +9,7 @@ import com.naumov.appmvp.databinding.ItemUserBinding
 import com.naumov.appmvp.model.GithubUserEntity
 
 
-class UsersAdapter():RecyclerView.Adapter<UsersViewHolder>() {
+class UsersAdapter :RecyclerView.Adapter<UsersViewHolder>() {
 
     var users:List<GithubUserEntity> = emptyList()
 
