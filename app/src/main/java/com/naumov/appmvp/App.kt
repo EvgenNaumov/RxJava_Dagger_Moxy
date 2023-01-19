@@ -5,21 +5,22 @@ import android.content.Context
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
 import com.naumov.appmvp.database.GithubAppDb
+import com.naumov.appmvp.di.AppComponent
+import com.naumov.appmvp.di.AppModul
+import com.naumov.appmvp.di.DaggerAppComponent
 import com.naumov.appmvp.network.NetworkProvider
-import com.naumov.appmvp.repository.impl.ConnectivityListener
-import com.naumov.appmvp.repository.impl.GithubRepositoryRepoImpl
-import com.naumov.appmvp.repository.impl.GithubRepositoryUserImpl
-import com.naumov.appmvp.repository.impl.RoomGithubRepositoriesCache
-import com.naumov.appmvp.repository.impl.RoomGithubUsersCache
+import com.naumov.appmvp.repository.impl.*
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 
-class App : Application() {
-    companion object {
+class App : Application(){
+    companion object{
         lateinit var instance: App
-            private set
+        private set
     }
 
-    private val cicerone: Cicerone<Router> by lazy { Cicerone.create() }
+    lateinit var appComponent: AppComponent
+
+    private val cicerone:Cicerone<Router> by lazy { Cicerone.create() }
 
     val navigatorHolder = cicerone.getNavigatorHolder()
     val router = cicerone.router
@@ -44,6 +45,9 @@ class App : Application() {
 
 
         RxJavaPlugins.setErrorHandler {}
+        appComponent = DaggerAppComponent.builder()
+        .appModul(AppModul(this))
+        .build()
     }
 
     private fun getGithubAppDb(cont:Context):GithubAppDb  {
