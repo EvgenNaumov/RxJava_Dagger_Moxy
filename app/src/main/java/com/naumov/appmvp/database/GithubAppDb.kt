@@ -5,17 +5,21 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
+const val DB_NAME = "github.db"
+
 @Database(
     entities = [UserDBEntity::class, RepoDBEntity::class],
             version =1
 )
+
 abstract class GithubAppDb:RoomDatabase() {
 
     abstract val userDAO: UserDAO
     abstract val repoDAO: ReposDAO
 
+
     companion object {
-        private const val DB_NAME = "github.db"
+
         private var instance: GithubAppDb? = null
 
         fun getInstance() = instance ?: throw RuntimeException(

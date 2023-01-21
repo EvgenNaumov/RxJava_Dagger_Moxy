@@ -10,8 +10,13 @@ import com.naumov.appmvp.subscribeSingeByDef
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class UserCardPresenter(private val repoUser: GithubUserInterface, private val repoRepos:GithubRepoInterface, private val router: Router) : MvpPresenter<UserCardView>() {
+class UserCardPresenter() : MvpPresenter<UserCardView>() {
+
+    @Inject lateinit var repoUser: GithubUserInterface
+    @Inject lateinit var repoRepos:GithubRepoInterface
+    @Inject lateinit var router: Router
 
     private val bag = CompositeDisposable()
 

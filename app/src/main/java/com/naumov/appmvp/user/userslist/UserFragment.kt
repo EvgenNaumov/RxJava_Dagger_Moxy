@@ -24,15 +24,13 @@ class UserFragment : MvpAppCompatFragment(), UserView, BackPressedLisener {
     private val adapter = UsersAdapter()
 
     companion object {
-        fun getInstance(): UserFragment {
-            return UserFragment()
+        fun getInstance() = UserFragment().apply {
+            App.instance.appComponent.inject(this)
         }
     }
 
     private val presenter: UserPresenter by moxyPresenter {
-        UserPresenter(App.instance.repoUser,
-            App.instance.router
-        )
+        UserPresenter().apply { App.instance.appComponent.inject(this) }
     }
 
     override fun showLoading() {

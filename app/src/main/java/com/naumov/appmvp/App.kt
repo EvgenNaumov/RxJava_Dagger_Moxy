@@ -12,48 +12,46 @@ import com.naumov.appmvp.network.NetworkProvider
 import com.naumov.appmvp.repository.impl.*
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 
-class App : Application(){
-    companion object{
+class App : Application() {
+
+    companion object {
         lateinit var instance: App
-        private set
+            private set
     }
 
     lateinit var appComponent: AppComponent
 
-    private val cicerone:Cicerone<Router> by lazy { Cicerone.create() }
+    private lateinit var appDatabase: GithubAppDb
 
-    val navigatorHolder = cicerone.getNavigatorHolder()
-    val router = cicerone.router
-
-    private lateinit var appDatabase:GithubAppDb
-
-
-    lateinit var   repoUser: GithubRepositoryUserImpl
+    lateinit var repoUser: GithubRepositoryUserImpl
     lateinit var repoRepos: GithubRepositoryRepoImpl
-    lateinit var  connectivityListener: ConnectivityListener
-    private  var cacheUserDB: RoomGithubUsersCache = RoomGithubUsersCache()
-    private var cacheUserRepoDB:RoomGithubRepositoriesCache = RoomGithubRepositoriesCache()
+    lateinit var connectivityListener: ConnectivityListener
+    private var cacheUserDB: RoomGithubUsersCache = RoomGithubUsersCache()
+    private var cacheUserRepoDB: RoomGithubRepositoriesCache = RoomGithubRepositoriesCache()
 
     override fun onCreate() {
         super.onCreate()
         instance = this
 
-        appDatabase = getGithubAppDb(this)
         connectivityListener = ConnectivityListener(this)
-        repoUser = GithubRepositoryUserImpl(NetworkProvider.userApi, appDatabase.userDAO, connectivityListener,cacheUserDB)
-        repoRepos = GithubRepositoryRepoImpl(NetworkProvider.userApi,appDatabase.repoDAO, connectivityListener, cacheUserRepoDB)
+        repoUser = GithubRepositoryUserImpl(
+            NetworkProvider.userApi,
+            appDatabase.userDAO,
+            connectivityListener,
+            cacheUserDB
+        )
+        repoRepos = GithubRepositoryRepoImpl(
+            NetworkProvider.userApi,
+            appDatabase.repoDAO,
+            connectivityListener,
+            cacheUserRepoDB
+        )
 
 
         RxJavaPlugins.setErrorHandler {}
         appComponent = DaggerAppComponent.builder()
-        .appModul(AppModul(this))
-        .build()
+            .appModul(AppModul(this))
+            .build()
     }
-
-    private fun getGithubAppDb(cont:Context):GithubAppDb  {
-        GithubAppDb.create(cont)
-        return GithubAppDb.getInstance()
-    }
-
 
 }

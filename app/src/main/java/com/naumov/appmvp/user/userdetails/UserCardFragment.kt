@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.terrakok.cicerone.Router
 import com.naumov.appmvp.App
 import com.naumov.appmvp.core.BackPressedLisener
 import com.naumov.appmvp.databinding.FragmentUserCardBinding
@@ -13,6 +14,7 @@ import com.naumov.appmvp.model.UserRepoEntity
 import com.naumov.appmvp.showView
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class UserCardFragment(private val login: String, private val userId: Long) :
     MvpAppCompatFragment(),
@@ -38,11 +40,8 @@ class UserCardFragment(private val login: String, private val userId: Long) :
     private val adapter = UserDetailAdapter()
 
     private val presenter: UserCardPresenter by moxyPresenter {
-        UserCardPresenter(
-            App.instance.repoUser,
-            App.instance.repoRepos,
-            App.instance.router
-        )
+        UserCardPresenter().apply {App.instance.appComponent.inject(this)}
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

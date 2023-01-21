@@ -9,11 +9,13 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
+import javax.inject.Inject
 
 class UserPresenter(
-    private val repository: GithubUserInterface,
-    private val router: Router
 ) : MvpPresenter<UserView>() {
+
+    @Inject lateinit var repository: GithubUserInterface
+    @Inject lateinit var router: Router
 
     private val bag = CompositeDisposable()
 

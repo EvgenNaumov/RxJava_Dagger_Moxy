@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 const val TAG = "TAG_LOG"
 const val KEY_POS_LIST = "rey_pos_list"
+const val DB_NAME = "github.db"
 
 fun View.showView() {
     this.visibility = View.VISIBLE
