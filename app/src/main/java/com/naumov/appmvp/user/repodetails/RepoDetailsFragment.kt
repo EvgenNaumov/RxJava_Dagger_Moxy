@@ -17,9 +17,9 @@ class RepoDetailsFragment(private val forkUrl:String) :
     MvpAppCompatFragment(), RepoDetailsView, BackPressedLisener {
 
     private val presenter: RepoDetailsPresenter by moxyPresenter {
-        RepoDetailsPresenter(
-            App.instance.router
-        )
+        RepoDetailsPresenter().apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     companion object {

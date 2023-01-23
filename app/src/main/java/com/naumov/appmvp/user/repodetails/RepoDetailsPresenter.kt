@@ -4,15 +4,19 @@ import android.util.Log
 import com.github.terrakok.cicerone.Router
 import com.naumov.appmvp.App
 import com.naumov.appmvp.TAG
+import com.naumov.appmvp.repository.GithubRepoInterface
+import com.naumov.appmvp.repository.impl.GithubRepositoryRepoImpl
 import com.naumov.appmvp.subscribeSingeByDef
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import moxy.MvpPresenter
+import javax.inject.Inject
 
-class RepoDetailsPresenter(private val router:Router):MvpPresenter<RepoDetailsView>() {
+class RepoDetailsPresenter():MvpPresenter<RepoDetailsView>() {
 
-    private val repo = App.instance.repoRepos
+    @Inject lateinit var router: Router
+    @Inject lateinit var repo:GithubRepoInterface
+
     private val bag = CompositeDisposable()
-
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()

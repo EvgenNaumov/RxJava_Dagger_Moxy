@@ -1,6 +1,7 @@
 package com.naumov.appmvp.di
 
 import com.naumov.appmvp.database.UserDAO
+import com.naumov.appmvp.database.UserDBEntity
 import com.naumov.appmvp.network.UsersApi
 import com.naumov.appmvp.repository.GithubUserInterface
 import com.naumov.appmvp.repository.INetworkStatus
@@ -13,6 +14,15 @@ import dagger.Provides
 class RepoModule {
 
     @Provides
-    fun userRepo(userApi:UsersApi,userDAO: UserDAO,networkStatus:INetworkStatus,cacheUserDb:IRoomGithubUsersCache):GithubUserInterface = GithubRepositoryUserImpl(userApi,userDAO,networkStatus,cacheUserDb)
-
+    fun userRepo(
+        userApi: UsersApi,
+        userDao: UserDAO,
+        networkStatus: INetworkStatus,
+        cacheUserDb: IRoomGithubUsersCache
+    ): GithubUserInterface = GithubRepositoryUserImpl(
+        userApi,
+        userDao,
+        networkStatus,
+        cacheUserDb
+    )
 }
