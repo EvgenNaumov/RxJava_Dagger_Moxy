@@ -1,11 +1,10 @@
 package com.naumov.appmvp
 
 import android.app.Application
-import com.naumov.appmvp.database.GithubAppDb
 import com.naumov.appmvp.di.AppComponent
 import com.naumov.appmvp.di.AppModul
 import com.naumov.appmvp.di.DaggerAppComponent
-import com.naumov.appmvp.repository.impl.*
+import com.naumov.appmvp.repository.impl.ConnectivityListener
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 
 class App : Application() {
@@ -17,8 +16,7 @@ class App : Application() {
 
     lateinit var appComponent: AppComponent
 
-    lateinit var repoRepos: GithubRepositoryRepoImpl
-    lateinit var connectivityListener: ConnectivityListener
+    private lateinit var connectivityListener: ConnectivityListener
 
     override fun onCreate() {
         super.onCreate()
